@@ -45,6 +45,7 @@ export default function Map({ bounds, segments, level, setHash }: Props) {
   const mapContainer = useRef<null | HTMLElement>(null);
   const map = useRef<null | maplibregl.Map>(null);
   const [mapReady, setMapReady] = useState(false);
+  let hoveredSegment: null | string | number = null;
 
   useEffect(() => {
     if (map.current) return;
@@ -71,7 +72,12 @@ export default function Map({ bounds, segments, level, setHash }: Props) {
                 10, 8,
                 15, 30,
               ],
-              "line-color": "#fff",
+              "line-color": [
+                "case",
+                ["boolean", ["feature-state", "hover"], false],
+                "#990",
+                "#fff",
+              ],
             },
             layout: {
               "line-join": "round",
@@ -250,11 +256,34 @@ export default function Map({ bounds, segments, level, setHash }: Props) {
             filter: ["!", ["get", "variant"]],
           });
         })
-      .on("click", "couleur", (tronçon) => {
+      .on("click", "base-outer-white", (tronçon) => {
         if (tronçon.features !== undefined && tronçon.features.length > 0) {
           setHash(`segment/${tronçon.features[0].id}`);
         }
-      })
+      }).on("mousemove", "base-outer-white", (tronçon) => {
+        if (tronçon.features !== undefined && tronçon.features.length > 0) {
+          if (hoveredSegment) {
+            newMap.setFeatureState(
+                {source: 'vif', id: hoveredSegment},
+                {hover: false}
+            );
+          }
+          hoveredSegment = tronçon.features[0].id || null;
+          newMap.setFeatureState(
+            {source: 'vif', id: tronçon.features[0].id},
+            {hover: true}
+          );
+        }
+      }).on('mouseleave', 'base-outer-white', () => {
+        if (hoveredSegment) {
+            newMap.setFeatureState(
+                {source: 'vif', id: hoveredSegment},
+                {hover: false}
+            );
+        }
+        hoveredSegment = null;
+    });
+
     // TODO: find a better way to know if everything is loaded
     setTimeout(() => setMapReady(true), 3000);
     map.current = newMap;
