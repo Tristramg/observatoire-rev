@@ -63,22 +63,6 @@ export default function Map({ bounds, segments, level, setHash }: Props) {
             data: segments,
             promoteId: "id",
           })
-          .addLayer({ id: "base-outer-white-variant",
-            source: "vif",
-            type: "line",
-            paint: {
-              "line-width": ["interpolate", ["linear"], ["zoom"],
-                10, 7,
-                15, 26,
-              ],
-              "line-color": "#fff",
-            },
-            layout: {
-              "line-join": "round",
-              "line-cap": "round",
-            },
-            filter: ["get", "variant"],
-          })
           .addLayer({ id: "base-outer-white",
             source: "vif",
             type: "line",
@@ -93,7 +77,6 @@ export default function Map({ bounds, segments, level, setHash }: Props) {
               "line-join": "round",
               "line-cap": "round",
             },
-            filter: ["!", ["get", "variant"]],
           })
           .addLayer({ id: "variant-outline-grey",
             source: "vif",
