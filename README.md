@@ -1,4 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Observatoire du réseau vélo Île-de-France
+
+This project is the source code for processing and displaying as a website the regional cycle road network of the region Île-de-France.
+
+## Data sources
+
+### Communes
+
+The communes are from https://github.com/gregoiredavid/france-geojson.
+
+### Cycle routes
+
+The routes are provided by the region Île-de-France and completed with [cocarto](https://cocarto.com/) by the team from the [Collectif Vélo Île-de-France](https://velo-iledefrance.fr).
+
+### Map
+
+The map data are from [OpenStreetMap contributors](https://openstreetmap.org/) through [MapTiler](https://www.maptiler.com/).
 
 ## Getting Started
 
